@@ -1,4 +1,20 @@
 :root {
+    --bg-color: #f5f7fa;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --border-color: rgba(0, 0, 0, 0.08);
+    --text-primary: #1a1a2e;
+    --text-secondary: #6b7280;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #8b5cf6;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --hub-card-bg: rgba(0, 0, 0, 0.02);
+    --hub-card-shadow: rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="dark"] {
     --bg-color: #050505;
     --card-bg: rgba(20, 20, 20, 0.6);
     --border-color: rgba(255, 255, 255, 0.1);
@@ -9,7 +25,8 @@
     --success: #00ff88;
     --warning: #ffaa00;
     --danger: #ff4444;
-    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --hub-card-bg: rgba(255, 255, 255, 0.03);
+    --hub-card-shadow: rgba(0, 210, 255, 0.15);
 }
 
 * {

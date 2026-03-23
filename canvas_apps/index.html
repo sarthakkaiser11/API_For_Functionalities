@@ -18,7 +18,7 @@
         }
 
         .hub-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--hub-card-bg);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 2rem;
@@ -31,7 +31,7 @@
         .hub-card:hover {
             transform: translateY(-8px);
             border-color: var(--accent-primary);
-            box-shadow: 0 12px 40px rgba(0, 210, 255, 0.15);
+            box-shadow: 0 12px 40px var(--hub-card-shadow);
         }
 
         .hub-card h2 {
@@ -56,7 +56,7 @@
         .usage {
             margin-top: 3rem;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--hub-card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
         }
@@ -81,15 +81,43 @@
             color: var(--text-secondary);
             line-height: 1.6;
         }
+
+        /* ─── Theme Toggle Button ─── */
+        .theme-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: border-color 0.3s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-primary);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="glass-card">
+        <div class="glass-card" style="position: relative;">
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">☀️</button>
             <header>
-                <h1>Data Observability Hub</h1>
-                <p style="color: var(--text-secondary); font-size: 1.1rem;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-bottom: 1.5rem;">
+                    <img src="/shared/procdna-logo.png" alt="Company Logo" style="height: 52px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));">
+                    <h1 style="margin: 0; font-size: 3.5rem;">Data Observability Hub</h1>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 1.2rem; text-align: center; max-width: 600px; margin: 0 auto;">
                     Monitor freshness, quality, and statistical profiles of your Databricks tables.
                 </p>
             </header>
@@ -118,8 +146,15 @@
 
                 <a class="hub-card" href="/stats/description/intelliegencedatacatalog.pharma_sales.raw_pharma_sales">
                     <div class="icon">📄</div>
-                    <h2>Description</h2>
+                    <h2>Data Dictionary</h2>
                     <p>AI-generated documentation — table overviews, column definitions, and business context.
+                    </p>
+                </a>
+
+                <a class="hub-card" href="https://pipeline-health-poc-hsbufkgdfvd4eqab.southindia-01.azurewebsites.net/lineage" target="_blank">
+                    <div class="icon">🔗</div>
+                    <h2>Data Lineage</h2>
+                    <p>Trace data flow across pipelines — visualize upstream and downstream dependencies.
                     </p>
                 </a>
             </div>
@@ -130,11 +165,27 @@
                     <li>Freshness → <code>/stats/freshness/{catalog}.{schema}.{table}</code></li>
                     <li>Quality → <code>/stats/quality/{catalog}.{schema}.{table}</code></li>
                     <li>Profile → <code>/stats/profile/{catalog}.{schema}.{table}</code></li>
-                    <li>Description → <code>/stats/description/{catalog}.{schema}.{table}</code></li>
+                    <li>Data Dictionary → <code>/stats/description/{catalog}.{schema}.{table}</code></li>
                 </ul>
             </div>
         </div>
     </div>
+
+    <script>
+        // ── Theme Toggle ──
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+    </script>
 </body>
 
 </html>

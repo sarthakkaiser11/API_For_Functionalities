@@ -11,12 +11,12 @@
         rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0f;
-            --surface: #12121a;
-            --surface-2: #1a1a26;
-            --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --text: #ffffff;
+            --bg: #f5f7fa;
+            --surface: #ffffff;
+            --surface-2: #f0f2f5;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(0, 0, 0, 0.15);
+            --text: #1a1a2e;
             --text-dim: #6b7280;
             --text-muted: #4b5563;
             --accent: #3b82f6;
@@ -29,6 +29,17 @@
             --red-glow: rgba(239, 68, 68, 0.15);
             --purple: #8b5cf6;
             --cyan: #06b6d4;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface-2: #1a1a26;
+            --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --text: #ffffff;
+            --text-dim: #6b7280;
+            --text-muted: #4b5563;
         }
 
         * {
@@ -123,7 +134,7 @@
             border-color: var(--accent);
         }
 
-        .search-container button {
+        .search-container button:not(.theme-toggle) {
             background: var(--accent);
             border: none;
             border-radius: 10px;
@@ -134,8 +145,29 @@
             cursor: pointer;
         }
 
-        .search-container button:hover {
+        .search-container button:hover:not(.theme-toggle) {
             opacity: 0.85;
+        }
+
+        /* ─── Theme Toggle Button ─── */
+        .theme-toggle {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: border-color 0.3s, transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: scale(1.1);
         }
 
         /* ─── Main Layout ─── */
@@ -590,6 +622,8 @@
 
     <nav class="topbar">
         <div class="topbar-left">
+            <img src="/shared/procdna-logo.png" alt="Company Logo"
+                style="height: 28px; margin-right: 0.25rem; object-fit: contain;">
             <span class="logo">DataObs</span>
             <div class="nav-divider"></div>
             <div class="breadcrumb">
@@ -599,6 +633,7 @@
         <div class="search-container">
             <input type="text" id="tablePath" placeholder="catalog.schema.table">
             <button onclick="navigate()">Go</button>
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
         </div>
     </nav>
 
@@ -901,6 +936,19 @@
             document.getElementById('loader').style.display = 'none';
             document.getElementById('content').style.display = 'block';
         }
+        // ── Theme Toggle ──
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
     </script>
 </body>
 
